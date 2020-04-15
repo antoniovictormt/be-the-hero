@@ -1,13 +1,28 @@
-import React from 'react';
+import React from 'react'
+import { ThemeProvider } from 'styled-components'
+import usePersistedState from './utils/usePersistedState'
 
-import './global.css'
+import light from './styles/themes/lighTheme'
+import dark from './styles/themes/darkTheme'
 
-import Routes from './routes';
+import Routes from './routes'
+import GlobalStyle from './styles/global'
+import Header from './components/Header'
 
 function App() {
+  const [theme, setTheme] = usePersistedState('theme', light)
+
+  const toggleTheme = () => {
+    setTheme(theme.title === 'dark' ? light : dark)
+  }
+
   return (
-    <Routes />
-  );
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <Header toggleTheme={toggleTheme} />
+      <Routes />
+    </ThemeProvider>
+  )
 }
 
-export default App;
+export default App
